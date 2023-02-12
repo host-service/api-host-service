@@ -15,9 +15,23 @@ class ApiController extends Controller
    public function register(Request $request)
    {
       //Validate data
-      $data = $request->only('name', 'email', 'password');
+      $data = $request->only(
+         'nama_lengkap',
+         'username',
+         'no_telepon',
+         'jenis_kelamin',
+         'tempat_lahir',
+         'tanggal_lahir',
+         'email',
+         'password',
+      );
       $validator = Validator::make($data, [
-         'name' => 'required|string',
+         'nama_lengkap' => 'required|string',
+         'username' => 'required|string|unique:users,username',
+         'no_telepon' => 'required|string',
+         'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+         'tempat_lahir' => 'required|integer',
+         'tanggal_lahir' => 'required|date',
          'email' => 'required|email|unique:users',
          'password' => 'required|string|min:6|max:50'
       ]);
@@ -29,7 +43,12 @@ class ApiController extends Controller
 
       //Request is valid, create new user
       $user = User::create([
-         'name' => $request->name,
+         'nama_lengkap' => $request->nama_lengkap,
+         'username' => $request->username,
+         'no_telepon' => $request->no_telepon,
+         'jenis_kelamin' => $request->jenis_kelamin,
+         'tempat_lahir' => $request->tempat_lahir,
+         'tanggal_lahir' => $request->tanggal_lahir,
          'email' => $request->email,
          'password' => bcrypt($request->password)
       ]);
@@ -78,6 +97,7 @@ class ApiController extends Controller
       return response()->json([
          'success' => true,
          'token' => $token,
+         'user' => auth()->user(),
       ]);
    }
 
@@ -111,9 +131,9 @@ class ApiController extends Controller
 
    public function get_user(Request $request)
    {
-      $this->validate($request, [
-         'token' => 'required'
-      ]);
+      // $this->validate($request, [
+      //    'token' => 'required'
+      // ]);
 
       $user = JWTAuth::authenticate($request->token);
 
