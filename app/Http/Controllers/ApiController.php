@@ -14,7 +14,6 @@ class ApiController extends Controller
 {
    public function register(Request $request)
    {
-      //Validate data
       $data = $request->only(
          'nama_lengkap',
          'username',
