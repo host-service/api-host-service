@@ -15,7 +15,7 @@ class CreatePackagesTable extends Migration
    {
       Schema::create('packages', function (Blueprint $table) {
          $table->id();
-         $table->unsignedInteger('id_business');
+         $table->unsignedInteger('id_user');
          $table->text('nama');
          $table->text('deskripsi');
          $table->enum('jenis', ['private', 'public']);

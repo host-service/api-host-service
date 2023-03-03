@@ -3,6 +3,9 @@
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PackageGalleryController;
+use App\Http\Controllers\PackageItemController;
+use App\Http\Controllers\PackageScheduleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Models\Package;
@@ -49,7 +52,11 @@ Route::group(['middleware' => ['jwt.verify']], function () {
       Route::get('', [PackageController::class, 'index']);
       Route::get('/{id}', [PackageController::class, 'show']);
       Route::post('', [PackageController::class, 'store']);
-      Route::put('/{product}',  [PackageController::class, 'update']);
-      Route::delete('/{product}',  [PackageController::class, 'destroy']);
+      Route::put('/{package}',  [PackageController::class, 'update']);
+      Route::delete('/{package}',  [PackageController::class, 'destroy']);
+
+      Route::post('/{package}/gallery', [PackageGalleryController::class, 'store']);
+      Route::post('/{package}/schedule', [PackageScheduleController::class, 'store']);
+      Route::post('/{package}/item', [PackageItemController::class, 'store']);
    });
 });
